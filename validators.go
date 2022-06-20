@@ -9,10 +9,6 @@ import (
 
 type Validator func(input interface{}) error
 
-func Required() Validator {
-	return survey.Required
-}
-
 func MinLength(n int) Validator {
 	return Validator(survey.MinLength(n))
 }

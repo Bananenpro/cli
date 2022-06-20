@@ -14,10 +14,16 @@ var (
 
 // Input ask the user to input a line of text.
 func Input(prompt string, validators ...Validator) (string, error) {
+	opts := make([]survey.AskOpt, 0, len(validators)+1)
+	opts = append(opts, survey.WithValidator(survey.Required))
+	for _, v := range validators {
+		opts = append(opts, survey.WithValidator(survey.Validator(v)))
+	}
+
 	var result string
 	err := survey.AskOne(&survey.Input{
 		Message: prompt,
-	}, &result, survey.WithValidator(survey.Required))
+	}, &result, opts...)
 	if err == terminal.InterruptErr {
 		err = ErrCanceled
 	}
