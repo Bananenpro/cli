@@ -64,7 +64,7 @@ func SelectString(msg string, displayOptions []string, options []string) (string
 	var index int
 	err := survey.AskOne(&survey.Select{
 		Message: msg,
-		Options: options,
+		Options: displayOptions,
 	}, &index, survey.WithValidator(survey.Required))
 	if err == terminal.InterruptErr {
 		err = ErrCanceled
