@@ -36,11 +36,11 @@ var progressMsg string
 var loadingTicker *time.Ticker
 var progressBarRunning bool
 
-func BeginLoading(msg string) {
+func BeginLoading(format string, a ...any) {
 	FinishLoading()
 	progressStart = time.Now()
 	loadingTicker = time.NewTicker(time.Second / 2)
-	progressMsg = msg
+	progressMsg = fmt.Sprintf(format, a...)
 	go func() {
 		position := 0
 		for {
@@ -89,10 +89,10 @@ func FinishLoading() {
 	fmt.Fprintf(out, "\r%s√ %s %s   %s\n", Green, strings.TrimSuffix(progressMsg, "..."), durationStr, Reset)
 }
 
-func BeginProgressBar(msg string) {
-	progressMsg = msg
+func BeginProgressBar(format string, a ...any) {
+	progressMsg = fmt.Sprintf(format, a...)
 	progressStart = time.Now()
-	fmt.Fprintf(out, "%s%s%s\n", Cyan, msg, Reset)
+	fmt.Fprintf(out, "%s%s%s\n", Cyan, progressMsg, Reset)
 	UpdateProgressBar(0)
 }
 
