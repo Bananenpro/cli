@@ -129,10 +129,14 @@ func FinishProgressBar() {
 }
 
 func Print(format string, a ...any) {
+	CancelProgressBar()
+	CancelProgressBar()
 	fmt.Fprintf(out, "%s\n", fmt.Sprintf(format, a...))
 }
 
 func PrintColor(color Color, format string, a ...any) {
+	CancelProgressBar()
+	CancelProgressBar()
 	fmt.Fprintf(out, "%s%s%s\n", color, fmt.Sprintf(format, a...), Reset)
 }
 
