@@ -145,10 +145,10 @@ func Success(format string, a ...any) {
 }
 
 func Warn(format string, a ...any) {
-	PrintColor(Yellow, fmt.Sprintf("WARNING: "+format, a...))
+	Print(string(Yellow)+"WARNING: "+string(Reset)+format, a...)
 }
 
 func Error(format string, a ...any) error {
-	PrintColor(RedBold, "ERROR: "+format, a...)
+	Print(string(RedBold)+"ERROR: "+string(Reset)+format, a...)
 	return fmt.Errorf(format, a...)
 }
