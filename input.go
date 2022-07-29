@@ -42,7 +42,7 @@ func YesNo(question string, defaultValue bool) (yes bool, err error) {
 	return yes, err
 }
 
-// Select asks the user to select on of many options. It returns the index of the chosen option.
+// Select asks the user to select on option. It returns the index of the chosen option.
 func Select(msg string, options []string) (int, error) {
 	var index int
 	err := survey.AskOne(&survey.Select{
@@ -55,7 +55,7 @@ func Select(msg string, options []string) (int, error) {
 	return index, err
 }
 
-// SelectString asks the user to select on of many options. It returns the entry in options with the chosen index.
+// SelectString asks the user to select on option. It returns the entry in options with the chosen index.
 // It panics if the length of displayOptions differs from the length of options.
 func SelectString(msg string, displayOptions []string, options []string) (string, error) {
 	if len(displayOptions) != len(options) {
@@ -70,4 +70,24 @@ func SelectString(msg string, displayOptions []string, options []string) (string
 		err = ErrCanceled
 	}
 	return options[index], err
+}
+
+// MultiSelect asks the user to select an arbitrary amount of options.
+// It returns a boolean slice of length options with the chosen indices set to true.
+func MultiSelect(msg string, options []string, selected []int) ([]bool, error) {
+	var indices []int
+	err := survey.AskOne(&survey.MultiSelect{
+		Message: msg,
+		Options: options,
+		Default: selected,
+	}, &indices)
+	if err == terminal.InterruptErr {
+		err = ErrCanceled
+		return nil, err
+	}
+	chosen := make([]bool, len(options))
+	for _, index := range indices {
+		chosen[index] = true
+	}
+	return chosen, nil
 }
