@@ -152,3 +152,7 @@ func Error(format string, a ...any) error {
 	Print(string(RedBold)+"ERROR: "+string(Reset)+format, a...)
 	return fmt.Errorf(format, a...)
 }
+
+func Clear() {
+	fmt.Fprintf(out, "\033[H\033[2J")
+}
